@@ -20,7 +20,7 @@ namespace DevCommerce.WebApi.Controllers
             return _categoryService.GetAll();
         }
 
-        [HttpGet("GetCategoryByCategoryId/{categoryId?}")]
+        [HttpGet("{categoryId}")]
         public Category GetCategoryByCategoryId(int categoryId)
         {
             return _categoryService.GetById(categoryId);

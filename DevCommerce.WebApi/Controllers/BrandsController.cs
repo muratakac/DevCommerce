@@ -21,7 +21,7 @@ namespace DevCommerce.WebApi.Controllers
             return _brandService.GetAll();
         }
 
-        [HttpGet("GetBrandByBrandId/{brandId?}")]
+        [HttpGet("{brandId}")]
         public Brand GetBrandByBrandId(int brandId)
         {
             return _brandService.GetById(brandId);
