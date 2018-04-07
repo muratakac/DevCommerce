@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>DevCommerce.Business</AssemblyName>
+    <RootNamespace>DevCommerce.Business</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevCommerce.DataAccess\DevCommerce.DataAccess.csproj" />
+    <ProjectReference Include="..\DevCommerce.Entities\DevCommerce.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
