@@ -1,9 +1,8 @@
-﻿using DevCommerce.Core.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DevCommerce.Entities
 {
-    public partial class PaymentType : IEntity
+    public partial class PaymentType 
     {
         public PaymentType()
         {

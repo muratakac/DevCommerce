@@ -1,11 +1,8 @@
-﻿using DevCommerce.Core.Entities;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 
 namespace DevCommerce.Entities
 {
-    public partial class OrderDetail : IEntity
+    public partial class OrderDetail 
     {
      
         public int OrderId { get; set; }

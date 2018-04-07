@@ -1,10 +1,9 @@
-﻿using DevCommerce.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace DevCommerce.Entities
 {
-    public partial class Category : IEntity
+    public partial class Category 
     {
         public Category()
         {
