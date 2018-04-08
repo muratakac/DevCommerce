@@ -1,11 +1,13 @@
 ﻿using DevCommerce.Entities;
+using DevCommerce.Entities.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevCommerce.DataAccess.Concrete.EntityFramework
 {
-    public partial class DevCommerceContext : DbContext
+    public partial class DevCommerceContext : IdentityDbContext<User, Role, int>
     {
-        public DevCommerceContext(DbContextOptions options)
+        public DevCommerceContext(DbContextOptions<DevCommerceContext> options)
             : base(options)
         {
 
@@ -22,7 +24,8 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderDetail>().HasKey(table => new {
+            modelBuilder.Entity<OrderDetail>().HasKey(table => new
+            {
                 table.OrderId,
                 table.ProductId
             });

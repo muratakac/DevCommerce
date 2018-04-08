@@ -11,9 +11,10 @@ using System;
 namespace DevCommerce.DataAccess.Migrations
 {
     [DbContext(typeof(DevCommerceContext))]
-    partial class DevCommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20180407184323_IdentityAdded")]
+    partial class IdentityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
