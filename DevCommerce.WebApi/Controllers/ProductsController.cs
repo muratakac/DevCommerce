@@ -21,7 +21,7 @@ namespace DevCommerce.WebApi.Controllers
             return _productService.GetAll();
         }
 
-        [HttpGet("GetProductByProductId/{productId?}")]
+        [HttpGet("{productId}")]
         public Product GetProductByProductId(int productId)
         {
             return _productService.GetById(productId);

@@ -21,7 +21,7 @@ namespace DevCommerce.WebApi.Controllers
             return _orderService.GetAll();
         }
 
-        [HttpGet("GetOrderByOrderId/{orderId?}")]
+        [HttpGet("{orderId}")]
         public Order GetOrderByOrderId(int orderId)
         {
             return _orderService.GetById(orderId);
