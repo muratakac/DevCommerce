@@ -6,8 +6,6 @@ using DevCommerce.Core.Entities.AppSettingsModels;
 using DevCommerce.DataAccess.Abstract;
 using DevCommerce.DataAccess.Concrete.EntityFramework;
 using DevCommerce.Entities.Concrete;
-using DevCommerce.WebApi.Models;
-using DevCommerce.WebApi.Utilities.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

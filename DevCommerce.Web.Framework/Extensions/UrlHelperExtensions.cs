@@ -1,14 +1,14 @@
-﻿using DevCommerce.WebApi.Controllers;
+﻿using DevCommerce.Web.Framework.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevCommerce.WebApi.Extensions
+namespace DevCommerce.Web.Framework.Extensions
 {
     public static class UrlHelperExtensions
     {
         public static string EmailConfirmationLink(this IUrlHelper urlHelper, int userId, string code, string scheme)
         {
             return urlHelper.Action(
-                action: nameof(AccountController.ConfirmEmail),
+                action: nameof(AccountBaseController.ConfirmEmail),
                 controller: "Account",
                 values: new { userId, code },
                 protocol: scheme);
@@ -17,7 +17,7 @@ namespace DevCommerce.WebApi.Extensions
         public static string ResetPasswordCallbackLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
         {
             return urlHelper.Action(
-                action: nameof(AccountController.ResetPassword),
+                action: nameof(AccountBaseController.ResetPassword),
                 controller: "Account",
                 values: new { userId, code },
                 protocol: scheme);

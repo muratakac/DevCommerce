@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DevCommerce.Entities.Concrete;
-using DevCommerce.WebApi.Models;
+using DevCommerce.Web.Framework.Models;
 
 namespace DevCommerce.WebApi.Utilities.Mappings
 {
@@ -10,6 +10,9 @@ namespace DevCommerce.WebApi.Utilities.Mappings
         {
             CreateMap<TokenViewModel, Token>();
             CreateMap<RegisterViewModel, User>();
+
+            CreateMap<Token,TokenViewModel > ();
+            CreateMap<User, RegisterViewModel>();
         }
     }
 }

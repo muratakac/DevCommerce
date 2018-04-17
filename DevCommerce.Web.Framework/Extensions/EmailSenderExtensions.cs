@@ -2,7 +2,7 @@
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace DevCommerce.WebApi.Extensions
+namespace DevCommerce.Web.Framework.Extensions
 {
     public static class EmailSenderExtensions
     {
