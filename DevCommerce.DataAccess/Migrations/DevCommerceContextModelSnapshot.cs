@@ -90,6 +90,24 @@ namespace DevCommerce.DataAccess.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("DevCommerce.Entities.Concrete.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CompanyName");
+
+                    b.Property<string>("ProjectName");
+
+                    b.Property<string>("TokenKey");
+
+                    b.Property<string>("TokenValue");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tokens");
+                });
+
             modelBuilder.Entity("DevCommerce.Entities.Concrete.User", b =>
                 {
                     b.Property<int>("Id")

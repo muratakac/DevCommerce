@@ -12,7 +12,7 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
         {
 
         }
-
+        public virtual DbSet<Token> Tokens { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Company> Companies { get; set; }

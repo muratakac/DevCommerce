@@ -7,6 +7,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { NavmenuComponent } from './navmenu/navmenu.component';
 import { BasketComponent } from './basket/basket.component';
+import { HomeComponent } from './home/home.component';
+import { SliderComponent } from './slider/slider.component';
+import { HeroesComponent } from './heroes/heroes.component';
 
 
 @NgModule({
@@ -14,7 +17,10 @@ import { BasketComponent } from './basket/basket.component';
     AppComponent,
     ProductViewComponent,
     NavmenuComponent,
-    BasketComponent
+    BasketComponent,
+    HomeComponent,
+    SliderComponent,
+    HeroesComponent
   ],
   imports: [
     BrowserModule,

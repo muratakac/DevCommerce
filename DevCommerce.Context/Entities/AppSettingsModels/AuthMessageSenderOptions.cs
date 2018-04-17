@@ -1,4 +1,4 @@
-﻿namespace DevCommerce.WebApi.Services
+﻿namespace DevCommerce.Core.Entities.AppSettingsModels
 {
     public class AuthMessageSenderOptions
     {
