@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DevCommerce.DataAccess\DevCommerce.DataAccess.csproj" />
     <ProjectReference Include="..\DevCommerce.Entities\DevCommerce.Entities.csproj" />
   </ItemGroup>

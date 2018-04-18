@@ -10,11 +10,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -107,7 +111,6 @@ namespace DevCommerce.WebApi
                };
            });
 
-
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
@@ -122,6 +125,11 @@ namespace DevCommerce.WebApi
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ITokenRepository, TokenRepository>();
+
+            services.AddScoped<ICultureRepository, CultureRepository>();
+            services.AddScoped<IResourceRepository, ResourceRepository>();
+
+            services.AddSingleton<IStringLocalizer, LocalizationService>();
 
             services.AddScoped<IEmailSender, EmailSender>();
 
@@ -140,6 +148,28 @@ namespace DevCommerce.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("en-AU"),
+                new CultureInfo("en-GB"),
+                new CultureInfo("es-ES"),
+                new CultureInfo("ja-JP"),
+                new CultureInfo("fr-FR"),
+                new CultureInfo("zh"),
+                new CultureInfo("zh-CN"),
+                new CultureInfo("tr-TR")
+            };
+
+            var options = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            app.UseRequestLocalization(options);
 
             app.UseAuthentication();
 

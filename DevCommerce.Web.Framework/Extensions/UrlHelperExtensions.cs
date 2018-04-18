@@ -1,5 +1,4 @@
-﻿using DevCommerce.Web.Framework.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DevCommerce.Web.Framework.Extensions
 {
@@ -8,7 +7,8 @@ namespace DevCommerce.Web.Framework.Extensions
         public static string EmailConfirmationLink(this IUrlHelper urlHelper, int userId, string code, string scheme)
         {
             return urlHelper.Action(
-                action: nameof(AccountBaseController.ConfirmEmail),
+                //action: nameof(AccountBaseController.ConfirmEmail),
+                action: "ConfirmEmail",
                 controller: "Account",
                 values: new { userId, code },
                 protocol: scheme);
@@ -17,7 +17,8 @@ namespace DevCommerce.Web.Framework.Extensions
         public static string ResetPasswordCallbackLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
         {
             return urlHelper.Action(
-                action: nameof(AccountBaseController.ResetPassword),
+                //action: nameof(AccountBaseController.ResetPassword),
+                action: "ResetPassword",
                 controller: "Account",
                 values: new { userId, code },
                 protocol: scheme);

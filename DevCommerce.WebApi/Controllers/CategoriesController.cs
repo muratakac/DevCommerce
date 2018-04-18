@@ -1,5 +1,6 @@
 ﻿using DevCommerce.Business.Abstract;
 using DevCommerce.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -15,11 +16,15 @@ namespace DevCommerce.WebApi.Controllers
             _categoryService = categoryService;
         }
 
+
+        [Authorize()]
+        [HttpGet]
         public List<Category> GetCategories()
         {
             return _categoryService.GetAll();
         }
 
+        [Authorize()]
         [HttpGet("{categoryId}")]
         public Category GetCategoryByCategoryId(int categoryId)
         {

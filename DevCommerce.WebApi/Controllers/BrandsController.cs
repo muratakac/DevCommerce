@@ -1,5 +1,6 @@
 ﻿using DevCommerce.Business.Abstract;
 using DevCommerce.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -15,28 +16,18 @@ namespace DevCommerce.WebApi.Controllers
             _brandService = brandService;
         }
 
+        [Authorize()]
         [HttpGet]
         public List<Brand> GetBrands()
         {
             return _brandService.GetAll();
         }
 
+        [Authorize()]
         [HttpGet("{brandId}")]
         public Brand GetBrandByBrandId(int brandId)
         {
             return _brandService.GetById(brandId);
         }
-
-        //[HttpGet()]
-        //public List<Brand> AllBrands()
-        //{
-        //    return _brandService.GetAll();
-        //}
-
-        //[HttpGet("{AllBrands2}")]
-        //public List<Brand> AllBrands2()
-        //{
-        //    return _brandService.GetAll();
-        //}
     }
 }

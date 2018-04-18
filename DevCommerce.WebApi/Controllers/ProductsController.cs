@@ -1,5 +1,6 @@
 ﻿using DevCommerce.Business.Abstract;
 using DevCommerce.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -15,12 +16,14 @@ namespace DevCommerce.WebApi.Controllers
             _productService = productService;
         }
 
+        [Authorize()]
         [HttpGet]
         public List<Product> GetProducts()
         {
             return _productService.GetAll();
         }
 
+        [Authorize()]
         [HttpGet("{productId}")]
         public Product GetProductByProductId(int productId)
         {

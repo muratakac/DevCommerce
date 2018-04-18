@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DevCommerce.Business.Abstract;
 using DevCommerce.Business.Concrete;
 using DevCommerce.Core.CrossCuttingConcerns.Email;
@@ -14,12 +9,18 @@ using DevCommerce.Entities.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DevCommerce.WebUI
 {
@@ -43,7 +44,6 @@ namespace DevCommerce.WebUI
 
             services.Configure<IdentityOptions>(options =>
             {
-                // Password settings
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
@@ -51,12 +51,10 @@ namespace DevCommerce.WebUI
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 6;
 
-                // Lockout settings
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.AllowedForNewUsers = true;
 
-                // User settings
                 options.User.RequireUniqueEmail = true;
             });
 
@@ -69,7 +67,6 @@ namespace DevCommerce.WebUI
                 options.SlidingExpiration = true;
             });
 
-            //Token based authentication
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -94,7 +91,6 @@ namespace DevCommerce.WebUI
                {
                    OnTokenValidated = ctx =>
                    {
-                       //Gerekirse burada gelen token içerisindeki çeşitli bilgilere göre doğrulam yapılabilir.
                        return Task.CompletedTask;
                    },
                    OnAuthenticationFailed = ctx =>
@@ -121,6 +117,11 @@ namespace DevCommerce.WebUI
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ITokenRepository, TokenRepository>();
 
+            services.AddScoped<IStringLocalizer, LocalizationService>();
+
+            services.AddScoped<ICultureRepository, CultureRepository>();
+            services.AddScoped<IResourceRepository, ResourceRepository>();
+
             services.AddScoped<IEmailSender, EmailSender>();
 
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AuthMessageSenderOptions"));
@@ -138,6 +139,28 @@ namespace DevCommerce.WebUI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("en-AU"),
+                new CultureInfo("en-GB"),
+                new CultureInfo("es-ES"),
+                new CultureInfo("ja-JP"),
+                new CultureInfo("fr-FR"),
+                new CultureInfo("zh"),
+                new CultureInfo("zh-CN"),
+                new CultureInfo("tr")
+            };
+
+            var options = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("tr"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            app.UseRequestLocalization(options);
 
             app.UseAuthentication();
 
