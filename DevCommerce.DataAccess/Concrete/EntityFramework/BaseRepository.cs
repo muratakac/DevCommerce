@@ -1,6 +1,7 @@
 ﻿using DevCommerce.DataAccess.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -33,6 +34,16 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
 
         public virtual IQueryable<TObject> All()
         {
+            return DbSet.AsQueryable();
+        }
+
+        public virtual IQueryable<TObject> GetIncludedChildProperties<TParamater>(IList<Expression<Func<TObject, TParamater>>> includeProperties)
+        {
+            foreach (var include in includeProperties)
+            {
+                DbSet.Include(include);
+            }
+
             return DbSet.AsQueryable();
         }
 

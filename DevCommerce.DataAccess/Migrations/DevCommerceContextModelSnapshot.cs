@@ -292,6 +292,23 @@ namespace DevCommerce.DataAccess.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("DevCommerce.Entities.ProductImage", b =>
+                {
+                    b.Property<int>("ImageId");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<bool>("IsThumbnail");
+
+                    b.HasKey("ImageId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -413,6 +430,19 @@ namespace DevCommerce.DataAccess.Migrations
                     b.HasOne("DevCommerce.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("DevCommerce.Entities.ProductImage", b =>
+                {
+                    b.HasOne("DevCommerce.Entities.Image", "Image")
+                        .WithMany("Images")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DevCommerce.Entities.Product", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

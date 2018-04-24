@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DevCommerce.Business.Abstract;
+﻿using DevCommerce.Entities;
+using DevCommerce.Entities.Enums;
+using DevCommerce.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DevCommerce.WebUI.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : ClientBaseController
     {
-        private ICategoryService _categoryService;
-        private IBrandService _brandService;
-        public ProductController(ICategoryService categoryService, IBrandService brandService)
-        {
-            _categoryService = categoryService;
-            _brandService = brandService;
-        }
-
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Detail(int ProductId)
+        {
+            ProductDetailViewModel productDetailViewModel = new ProductDetailViewModel();
+            string stringData = ClientBaseController.ServiceGetData($"/api/Product/{ProductId}", RequestType.GET, null, true);
+            productDetailViewModel.Product = JsonConvert.DeserializeObject<Product>(stringData);
+            return View(productDetailViewModel);
         }
     }
 }

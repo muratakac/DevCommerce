@@ -1,5 +1,7 @@
 ﻿using DevCommerce.DataAccess.Abstract;
 using DevCommerce.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DevCommerce.DataAccess.Concrete.EntityFramework
 {
@@ -8,6 +10,11 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
         public ProductRepository(DevCommerceContext context) : base(context)
         {
 
+        }
+
+        public virtual IQueryable<Product> AllWithChild()
+        {
+            return Context.Products.Include(x => x.Images).ThenInclude(y => y.Image);
         }
     }
 }

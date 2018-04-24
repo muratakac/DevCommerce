@@ -1,26 +1,47 @@
 ﻿using AutoMapper;
 using DevCommerce.Business.Abstract;
+using DevCommerce.Business.Concrete;
 using DevCommerce.Core.CrossCuttingConcerns.Email;
+using DevCommerce.Core.CrossCuttingConcerns.Security;
 using DevCommerce.Core.Entities.AppSettingsModels;
 using DevCommerce.Entities.Concrete;
-using DevCommerce.Web.Framework.Controllers;
-using DevCommerce.Web.Framework.Models;
+using DevCommerce.WebApi.Extensions;
+using DevCommerce.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace DevCommerce.WebApi.Controllers
 {
     [Route("api/Account")]
-    public class AccountController : AccountBaseController
+    public class AccountController : Controller
     {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ITokenService _tokenService;
+        private readonly IStringLocalizer _stringLocalizer;
         private readonly IMapper _mapper;
-     
-        public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IEmailSender emailSender, IOptions<JwtTokenParameter> jwtTokenParameter, IOptions<EmailParameter> emailParameter) : base(userManager, signInManager, tokenService, emailSender, jwtTokenParameter, emailParameter)
+
+        public JwtTokenParameter JwtTokenParameter { get; }
+        public EmailParameter EmailParameter { get; }
+
+        public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IEmailSender emailSender, IOptions<JwtTokenParameter> jwtTokenParameter, IOptions<EmailParameter> emailParameter, IStringLocalizer stringLocalizer)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _emailSender = emailSender;
             _mapper = mapper;
+            _stringLocalizer = stringLocalizer;
+
+            JwtTokenParameter = jwtTokenParameter.Value;
+            EmailParameter = emailParameter.Value;
         }
 
         /// <summary>
@@ -34,15 +55,23 @@ namespace DevCommerce.WebApi.Controllers
         public async Task<IActionResult> CreateToken([FromBody]TokenViewModel model)
         {
             Token tokenModel = _mapper.Map<TokenViewModel, Token>(model);
-            var result = await base.CreateTokenAsync(tokenModel);
-            if (string.IsNullOrEmpty(result))
+            if (_tokenService.CheckToken(tokenModel))
             {
-                return BadRequest("Token oluşturulamadı...");
-            }
-            else
-            {
+                var token = new JwtTokenBuilder()
+                              .AddSecurityKey(JwtSecurityKey.Create("dev-security-value-wep-api"))
+                              .AddSubject(string.Concat(model.CompanyName, "_", model.ProjectName))
+                              .AddIssuer(JwtTokenParameter.Issuer)
+                              .AddAudience(JwtTokenParameter.Audience)
+                              .AddClaim(model.TokenKey, model.TokenValue)
+                              .AddExpiry(1)
+                              .Build();
+
+                var result = await Task.FromResult<string>(token.Value);
+
                 return Ok(result);
             }
+
+            return BadRequest(_stringLocalizer.GetString("Account_Login_Token_Error"));
         }
 
         /// <summary>
@@ -63,19 +92,25 @@ namespace DevCommerce.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await base.LoginAsync(model);
-
-                if (result)
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
                 {
-                    return Ok("Giriş başarılı");
+                    return Ok();
                 }
                 else
                 {
-                    return BadRequest("Lütfen bilgilerinizi kontrol edin...");
+                    if (result.IsLockedOut)
+                    {
+                        return BadRequest(_stringLocalizer.GetString("Account_Login_Lock_Error"));
+                    }
+                    else
+                    {
+                        return BadRequest(_stringLocalizer.GetString("Account_Login_Data_Error"));
+                    }
                 }
             }
 
-            return BadRequest("Hatalı içerik");
+            return BadRequest(_stringLocalizer.GetString("Account_Login_Data_Error"));
         }
 
         [Authorize()]
@@ -83,7 +118,7 @@ namespace DevCommerce.WebApi.Controllers
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
-            await base.LogoutAsync();
+            await _signInManager.SignOutAsync();
             return Ok();
         }
 
@@ -109,13 +144,18 @@ namespace DevCommerce.WebApi.Controllers
             }
 
             User user = _mapper.Map<RegisterViewModel, User>(model);
-            var result = await base.RegisterAsync(user, model.Password);
-            if (result)
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
             {
-                return new OkObjectResult("Yeni kullanıcı oluşturuldu.");
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                await _emailSender.SendEmailConfirmationAsync(EmailParameter.DisplayName, EmailParameter.MailAddress, model.Email, "Confirm your email", callbackUrl);
+                return new OkObjectResult(_stringLocalizer.GetString("Account_Register_Success_Message"));
             }
 
-            return BadRequest("Lütfen bilgilerinizi kontrol edin.");
+            return BadRequest(_stringLocalizer.GetString("Account_Register_Data_Error"));
         }
 
         [HttpGet]
@@ -124,11 +164,17 @@ namespace DevCommerce.WebApi.Controllers
         {
             if (userId == null || code == null)
             {
-                return BadRequest("Lütfen bilgilerinizi kontrol edin.");
+                return BadRequest(_stringLocalizer.GetString("Account_ConfirmEmail_Data_Error"));
             }
 
-            var result = await base.ConfirmEmailAsync(userId, code);
-            if (result)
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new ApplicationException(string.Format(_stringLocalizer.GetString("Account_ConfirmEmail_User_Not_Found_Error"), userId));
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
             {
                 return Ok();
             }
@@ -146,9 +192,13 @@ namespace DevCommerce.WebApi.Controllers
             {
                 return View(model);
             }
-
-            var result = await base.ResetPasswordAsync(model);
-            if (result)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest(_stringLocalizer.GetString("Account_ResetPassword_Data_Error"));
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
             {
                 return Ok();
             }

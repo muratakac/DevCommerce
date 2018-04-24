@@ -1,0 +1,20 @@
+﻿@model DevCommerce.WebUI.Models.ProductComponentModel
+
+@foreach (var product in Model.Products)
+{
+    var thumbnail = product.Images.FirstOrDefault(x => x.IsThumbnail);
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top" alt="Card image cap" src="@thumbnail.Image.ImagePath">
+            <div class="card-body">
+                <p class="card-text">@product.Description</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="@Url.Action("Detail","Product",new {ProductId=product.ProductId })" class="btn btn-sm btn-outline-secondary">Detay</a>
+                    </div>
+                    <small class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DevCommerce.Entities.Concrete;
-using DevCommerce.Web.Framework.Models;
+using DevCommerce.WebApi.Models;
 
 namespace DevCommerce.WebApi.Utilities.Mappings
 {

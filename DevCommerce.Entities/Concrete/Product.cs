@@ -8,6 +8,7 @@ namespace DevCommerce.Entities
         public Product()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.Images = new HashSet<ProductImage>();
         }
 
         public int ProductId { get; set; }
@@ -19,7 +20,8 @@ namespace DevCommerce.Entities
         public Nullable<int> CategoryId { get; set; }
         public Nullable<int> BrandId { get; set; }
 
-        public virtual Category Category { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public  Category Category { get; set; }
+        public  ICollection<ProductImage> Images { get; set; }
+        public  ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

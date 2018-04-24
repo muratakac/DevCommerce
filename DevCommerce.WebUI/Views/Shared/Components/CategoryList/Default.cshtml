@@ -1,0 +1,22 @@
+﻿@model DevCommerce.WebUI.Models.CategoryPartialModel
+@foreach (var category in Model.Categories.Where(x => x.ParentId == null || x.ParentId == 0))
+{
+    if (Model.AllCategories.Any(x => x.ParentId == category.CategoryId))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @category.CategoryName
+            </a>
+
+            @await Component.InvokeAsync("SubCategoryList", new { categoryId = category.CategoryId, categoryList = Model.AllCategories })
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="#">@category.CategoryName</a>
+        </li>
+    }
+}
+
+

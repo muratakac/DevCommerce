@@ -5,10 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Contents\Scripts\Custom\DevScript.js" />
+    <Content Include="Contents\Scripts\Library\bootstrap.min.js" />
+    <Content Include="Contents\Scripts\Library\bootstrap.min.js.map" />
+    <Content Include="Contents\Scripts\Library\jquery-ui.min.js" />
+    <Content Include="Contents\Scripts\Library\jquery.js" />
+    <Content Include="Contents\Styles\Custom\MainStyle.css" />
+    <Content Include="Contents\Styles\Library\bootstrap.min.css" />
+    <Content Include="Contents\Styles\Library\jquery-ui.css" />
+    <Content Include="Contents\Styles\Library\jquery-ui.min.css" />
+    <Content Include="Contents\Styles\Library\jquery-ui.structure.css" />
+    <Content Include="Contents\Styles\Library\jquery-ui.structure.min.css" />
+    <Content Include="Contents\Styles\Library\jquery-ui.theme.css" />
+    <Content Include="Contents\Styles\Library\jquery-ui.theme.min.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BowerPower" Version="0.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" />
@@ -18,9 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DevCommerce.DataAccess\DevCommerce.DataAccess.csproj" />
-    <ProjectReference Include="..\DevCommerce.Service\DevCommerce.Business.csproj" />
-    <ProjectReference Include="..\DevCommerce.Web.Framework\DevCommerce.Web.Framework.csproj" />
+    <ProjectReference Include="..\DevCommerce.Entities\DevCommerce.Entities.csproj" />
   </ItemGroup>
-
 </Project>

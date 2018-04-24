@@ -7,6 +7,7 @@ using DevCommerce.DataAccess.Abstract;
 using DevCommerce.DataAccess.Concrete.EntityFramework;
 using DevCommerce.Entities.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -100,7 +101,6 @@ namespace DevCommerce.WebApi
                {
                    OnTokenValidated = ctx =>
                    {
-                       //Gerekirse burada gelen token içerisindeki çeşitli bilgilere göre doğrulam yapılabilir.
                        return Task.CompletedTask;
                    },
                    OnAuthenticationFailed = ctx =>
@@ -129,7 +129,7 @@ namespace DevCommerce.WebApi
             services.AddScoped<ICultureRepository, CultureRepository>();
             services.AddScoped<IResourceRepository, ResourceRepository>();
 
-            services.AddSingleton<IStringLocalizer, LocalizationService>();
+            services.AddScoped<IStringLocalizer, LocalizationService>();
 
             services.AddScoped<IEmailSender, EmailSender>();
 
@@ -138,8 +138,9 @@ namespace DevCommerce.WebApi
             services.Configure<EmailParameter>(Configuration.GetSection("EmailParameters"));
 
             services.AddAutoMapper();
-           
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(
+            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        ); ;
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

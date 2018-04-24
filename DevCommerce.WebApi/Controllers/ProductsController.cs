@@ -18,16 +18,16 @@ namespace DevCommerce.WebApi.Controllers
 
         [Authorize()]
         [HttpGet]
-        public List<Product> GetProducts()
+        public IActionResult GetProducts()
         {
-            return _productService.GetAll();
+            return Json(_productService.GetAll());
         }
 
         [Authorize()]
         [HttpGet("{productId}")]
-        public Product GetProductByProductId(int productId)
+        public IActionResult GetProductByProductId(int productId)
         {
-            return _productService.GetById(productId);
+            return Json(_productService.GetById(productId));
         }
     }
 }

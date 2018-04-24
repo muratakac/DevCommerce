@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -10,6 +11,8 @@ namespace DevCommerce.DataAccess.Abstract
         /// Gets all objects from database
         /// </summary>
         IQueryable<T> All();
+
+        IQueryable<T> GetIncludedChildProperties<TParamater>(IList<Expression<Func<T, TParamater>>> includeProperties);
 
         /// <summary>
         /// Gets objects from database by filter.
@@ -25,8 +28,8 @@ namespace DevCommerce.DataAccess.Abstract
         /// <param name="total">Returns the total records count of the filter.</param>
         /// <param name="index">Specified the page index.</param>
         /// <param name="size">Specified the page size</param>
-         IQueryable<T> Filter(Expression<Func<T, bool>> filter,
-        out int total, int index = 0, int size = 50);
+        IQueryable<T> Filter(Expression<Func<T, bool>> filter,
+       out int total, int index = 0, int size = 50);
 
         /// <summary>
         /// Gets the object(s) is exists in database by specified filter.

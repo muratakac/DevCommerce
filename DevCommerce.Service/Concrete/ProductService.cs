@@ -17,7 +17,7 @@ namespace DevCommerce.Business.Concrete
 
         public List<Product> GetAll()
         {
-            return _productRepository.All().ToList();
+            return _productRepository.AllWithChild().ToList();
         }
 
         public Product GetById(int id)

@@ -10,8 +10,8 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
         public DevCommerceContext(DbContextOptions<DevCommerceContext> options)
             : base(options)
         {
-
         }
+
         public virtual DbSet<Token> Tokens { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
@@ -21,6 +21,7 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Culture> Cultures { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
 
@@ -32,6 +33,11 @@ namespace DevCommerce.DataAccess.Concrete.EntityFramework
                 table.ProductId
             });
 
+            modelBuilder.Entity<ProductImage>().HasKey(table => new
+            {
+                table.ImageId,
+                table.ProductId
+            });
 
             base.OnModelCreating(modelBuilder);
         }
