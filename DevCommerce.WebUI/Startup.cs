@@ -56,7 +56,12 @@ namespace DevCommerce.WebUI
                        };
                    });
 
-            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
+
             services.AddScoped(typeof(Basket<>), typeof(Basket<>));
         }
 
@@ -94,8 +99,7 @@ namespace DevCommerce.WebUI
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("brandList", "Product/Index/{BrandId}", defaults: new { controller = "Product", action = "Index" });
-                routes.MapRoute("productList", "Product/Index/{CategoryId}", defaults: new { controller = "Product", action = "Index" });
+                routes.MapRoute("productList", "Product/Index/{CategoryId}", defaults: new { controller = "Product", action = "Index"});
                 routes.MapRoute("productDetail", "Product/Detail/{ProductId}", defaults: new { controller = "Product", action = "Detail" });
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });

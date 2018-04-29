@@ -42,6 +42,17 @@ nav .promo {
     max-width: 40rem;
 }
 
+.dropdown-button {
+    width: 150px;
+}
+
+    .dropdown-button .dropdown-button-sub-title {
+        font-size: 10px;
+        float: right;
+        position: relative;
+        padding-right: 33%;
+    }
+
 footer {
     padding-top: 3rem;
     padding-bottom: 3rem;
@@ -201,12 +212,7 @@ footer {
     margin-top: 20px;
 }
 
-/*.campaigns {
-    width: 100%;
-    background-color: #9e9e9e;
-    height:200px;
-    margin-top:20px;
-}*/
+
 /*Extra small devices (portrait phones, less than 576px)*/
 /*Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {

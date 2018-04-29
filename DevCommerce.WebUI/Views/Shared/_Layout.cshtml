@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using  DevCommerce.WebUI.Extensions;
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -20,22 +22,42 @@
             </a>
             <div class="row">
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-user"></span>   Hesabım
+                    <button class="btn btn-secondary dropdown-toggle dropdown-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-user"></span>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <span>
+                                Giriş Yap
+                            </span>
+                            <span class="dropdown-button-sub-title"> veya üye ol</span>
+
+                        }
+                        else
+                        {
+                            <span>
+                                Hesabım
+                            </span>
+                            <span class="dropdown-button-sub-title"> @Html.NameOfCurrentUser() </span>
+                        }
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <a class="dropdown-item" href="@Url.Action("Index","Login")">Giriş Yap</a>
-                        <a class="dropdown-item" href="#">Üye Ol</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Siparişlerim</a>
-                        <a class="dropdown-item" href="#">Hesabım</a>
-                        <a class="dropdown-item" href="#">Favorilerim</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Kuponlarım</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Mesajlarım</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Logout","Home")">Çıkış</a>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a class="dropdown-item" href="@Url.Action("Index","Login")">Giriş Yap</a>
+                            <a class="dropdown-item" href="@Url.Action("Register","Login")">Üye Ol</a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" href="@Url.Action("Index","Order")">Siparişlerim</a>
+                            <a class="dropdown-item" href="@Url.Action("Index","Account")">Hesabım</a>
+                            <a class="dropdown-item" href="#">Favorilerim</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Kuponlarım</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("Message","Account")">Mesajlarım</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("Logout","Home")">Çıkış</a>
+                        }
                     </div>
                 </div>
                 <a class="btn btn-secondary btn-lg" href='@Url.Action("Card","Product")' role="button">

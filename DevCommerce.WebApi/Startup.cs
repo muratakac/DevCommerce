@@ -45,7 +45,8 @@ namespace DevCommerce.WebApi
 
             services.AddIdentity<User, Role>(config =>
             {
-                config.SignIn.RequireConfirmedEmail = true;
+                //Email Confirm
+                //config.SignIn.RequireConfirmedEmail = true;
             }).AddEntityFrameworkStores<DevCommerceContext>().AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>

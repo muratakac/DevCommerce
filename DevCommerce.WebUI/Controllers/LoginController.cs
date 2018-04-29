@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DevCommerce.Entities.Concrete;
 using DevCommerce.Entities.Enums;
 using DevCommerce.WebUI.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -25,27 +26,26 @@ namespace DevCommerce.WebUI.Controllers
         public async Task<IActionResult> Index(LoginViewModel loginViewModel)
         {
             if (User.Identity.IsAuthenticated)
-                return View();
+                return View("Index", "Home");
 
 
             string stringData = ClientBaseController.ServiceGetData("/api/Account/Login", RequestType.POST, JsonConvert.SerializeObject(loginViewModel), true);
-            var result = JsonConvert.DeserializeObject(stringData);
-            if (result.ToString() == "Giriş Başarılı")
+            var user = JsonConvert.DeserializeObject<User>(stringData);
+
+            if (user != null)
             {
-                List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, "Sean Connery"),
-                new Claim(ClaimTypes.Email, loginViewModel.Email)
-            };
+                var claims = new List<Claim> {
+                                new Claim("Email", user.Email),
+                                new Claim("FullName", string.Format("{0} {1}", user.FirstName, user.LastName))
+                            };
 
                 ClaimsIdentity identity = new ClaimsIdentity(claims, "cookie");
-
                 ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
-                var sign =  HttpContext.SignInAsync(
-                             scheme: "FiverSecurityScheme",
-                             principal: principal);
-                
+                await HttpContext.SignInAsync(
+                            scheme: "FiverSecurityScheme",
+                            principal: principal);
+
 
                 return RedirectToAction("Index", "Home");
             }
@@ -53,6 +53,26 @@ namespace DevCommerce.WebUI.Controllers
             return View();
         }
 
-      
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel registerViewModel)
+        {
+            if (User.Identity.IsAuthenticated)
+                return View("Index", "Home");
+
+            string stringData = ClientBaseController.ServiceGetData("/api/Account/Register", RequestType.POST, JsonConvert.SerializeObject(registerViewModel), true);
+            var result = (bool)JsonConvert.DeserializeObject(stringData);
+            if (result)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            return View();
+        }
+
     }
 }

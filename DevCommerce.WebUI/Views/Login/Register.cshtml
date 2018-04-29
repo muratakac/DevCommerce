@@ -1,0 +1,112 @@
+﻿@model DevCommerce.WebUI.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Yeni Üye";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="container register-container">
+    <div class="row">
+        <div class="col-md-6 order-md-2 mb-4">
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div class="sub-content">
+                        <h6 class="my-0">Milyonlarca Ürün</h6>
+                        <small class="text-muted">30 farklı kategoride 2.700.000'in üzerinde ürünle ne ararsan hepsi burada, tek tıkla ayağında!</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div class="sub-content">
+                        <h6 class="my-0">Süper Hızlı Gönderi</h6>
+                        <small class="text-muted">Süper hızlı gönderi logosunu gördüğün ürünlerde saat 14:00’a kadar vereceğin tüm siparişler, aynı gün kargoda!</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div class="sub-content">
+                        <h6 class="my-0">Kolay İade</h6>
+                        <small class="text-muted">Değiştirmek istediğin ürünü 14 gün içinde ücretsiz iade edebilirsin.</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div class="sub-content">
+                        <h6 class="my-0">Canlı Yardım</h6>
+                        <small class="text-muted">Olur da yardıma ihtiyaç duyarsan, müşteri hizmetlerimiz bir telefon yakınında!</small>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6 order-md-1 new-user-content">
+            <h4 class="mb-3">Hesap Oluştur</h4>
+            <form class="needs-validation" action='@Url.Action("Register","Login")' method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">Ad</label>
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", placeholder = "Ad", required = "required" })
+                        <div class="invalid-feedback">
+                            Bu alan zorunludur.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Soyad</label>
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Soyad", required = "required" })
+                        <div class="invalid-feedback">
+                            Bu alan zorunludur.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username">Kullanıcı Adı</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"></span>
+                        </div>
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Kullanıcı Adı", required = "required" })
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Bu alan zorunludur.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">Eposta</label>
+                    @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control", placeholder = "eposta@example.com", required = "required", autofocus = "" })
+                    <div class="invalid-feedback">
+                        Bu alan zorunludur.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password">Şifre</label>
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Şifre", required = "required" })
+                    <div class="invalid-feedback">
+                        Bu alan zorunludur.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword">Şifre(Tekrar)</label>
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Şifre", required = "required" })
+                    <div class="invalid-feedback">
+                        Bu alan zorunludur.
+                    </div>
+                </div>
+                @Html.CheckBoxFor(model => model.ConfirmDataPermission) Önemli kampanyalardan haberdar olmak için <strong>
+                    Aydınlatma ve Rıza Metni
+                </strong> kapsamında elektronik ileti almak istiyorum.
+                <button class="btn btn-primary btn-lg btn-block register-button" type="submit">Hesabımı Oluştur</button>
+                <p>
+                    Hesabımı oluştur butonuna basarak <strong>Üyelik Sözleşmesi</strong>’ni, <strong>Aydınlatma ve Rıza Metni</strong>’ni, <strong>Gizlilik ve Çerez Politikası</strong>’nı okuduğunuzu ve kabul ettiğinizi onaylıyorsunuz.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p  class="mb-1">© 2018 Copyright: <a href="#"><strong>Site sorumluluğu CodeDev grubuna aittir. Her Hakkı Saklıdır.</strong></a></p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Hakkımızda</a></li>
+            <li class="list-inline-item"><a href="#">İade</a></li>
+            <li class="list-inline-item"><a href="#">Yardım</a></li>
+        </ul>
+    </footer>
+</div>

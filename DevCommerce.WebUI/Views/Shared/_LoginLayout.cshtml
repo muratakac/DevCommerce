@@ -11,6 +11,14 @@
     <link href="~/Contents/Styles/Library/signin.css" rel="stylesheet" />
 </head>
 <body class="text-center">
+    <header>
+        <nav class="navbar navbar-light bg-light ">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                <img src="/Contents/Images/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                DevCommerce
+            </a>
+        </nav>
+    </header>
     @RenderBody()
 </body>
 </html>

@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevCommerce.WebUI.Controllers
 {
-    [Authorize]
     public class ClientAuthController : ClientBaseController
     {
-       
+        //Tüm sayfalar login gerektirirse [Authorize] attribute ekle...
     }
 }

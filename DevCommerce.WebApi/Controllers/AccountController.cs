@@ -13,7 +13,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DevCommerce.WebApi.Controllers
@@ -95,22 +98,29 @@ namespace DevCommerce.WebApi.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return Ok("Giriş Başarılı");
-                }
-                else
-                {
-                    if (result.IsLockedOut)
+                    User user = _userManager.FindByNameAsync(model.Email).Result;
+                    if (user!=null)
                     {
-                        return BadRequest(_stringLocalizer.GetString("Account_Login_Lock_Error"));
+                        return Ok(user);
                     }
-                    else
-                    {
-                        return BadRequest(_stringLocalizer.GetString("Account_Login_Data_Error"));
-                    }
+
+                    return Ok(null);
                 }
+                //else
+                //{
+                //    if (result.IsLockedOut)
+                //    {
+                //        return BadRequest(_stringLocalizer.GetString("Account_Login_Lock_Error"));
+                //    }
+                //    else
+                //    {
+                //        return BadRequest(_stringLocalizer.GetString("Account_Login_Data_Error"));
+                //    }
+                //}
             }
 
-            return BadRequest(_stringLocalizer.GetString("Account_Login_Data_Error"));
+            // return BadRequest(_stringLocalizer.GetString("Account_Login_Data_Error"));
+            return BadRequest(null);
         }
 
         [Authorize()]
@@ -140,22 +150,23 @@ namespace DevCommerce.WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(false);
             }
 
             User user = _mapper.Map<RegisterViewModel, User>(model);
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailConfirmationAsync(EmailParameter.DisplayName, EmailParameter.MailAddress, model.Email, "Confirm your email", callbackUrl);
-                return new OkObjectResult(_stringLocalizer.GetString("Account_Register_Success_Message"));
+                //Send Email
+                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                //await _emailSender.SendEmailConfirmationAsync(EmailParameter.DisplayName, EmailParameter.MailAddress, model.Email, "Confirm your email", callbackUrl);
+                //return new OkObjectResult(_stringLocalizer.GetString("Account_Register_Success_Message"));
+                return Ok(true);
             }
 
-            return BadRequest(_stringLocalizer.GetString("Account_Register_Data_Error"));
+            //return BadRequest(_stringLocalizer.GetString("Account_Register_Data_Error"));
+            return BadRequest(false);
         }
 
         [HttpGet]

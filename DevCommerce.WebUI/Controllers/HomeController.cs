@@ -19,7 +19,7 @@ namespace DevCommerce.WebUI.Controllers
             await HttpContext.SignOutAsync(
                     scheme: "FiverSecurityScheme");
 
-            return RedirectToAction("Index", "Login");
+            return View("Index", "Home");
         }
     }
 }

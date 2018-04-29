@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevCommerce.WebUI.Controllers
 {
+    [Authorize]
     public class OrderController : ClientAuthController
     {
        

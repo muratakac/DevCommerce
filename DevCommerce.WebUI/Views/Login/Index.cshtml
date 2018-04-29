@@ -7,18 +7,27 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<form class="form-signin" action="@Url.Action("Index","Login")" method="post">
-    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Üye Girişi</h1>
-    <label for="inputEmail" class="sr-only">Eposta</label>
-    @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control", placeholder = "Eposta", required = "required", autofocus = "" })
-    <label for="inputPassword" class="sr-only">Şifre</label>
-    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Şifre", required = "required" })
-    <div class="checkbox mb-3">
-        <label>
-            @Html.CheckBoxFor(model => model.RememberMe) Beni Hatırla
-        </label>
+
+<div class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-6 col-xs-6 col-lg-6 content-area">
+            <h1 class="text-center login-title">Üye Girişi</h1>
+            <div class="account-wall">
+                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                     alt="">
+                <form class="form-signin" action='@Url.Action("Index","Login")' method="post">
+                    @Html.TextBoxFor(model => model.Email, new {  @class = "form-control", placeholder = "Eposta", required = "required", autofocus = "" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Şifre", required = "required" })
+                    <button class="btn btn-lg btn-primary btn-block form-signin-button" type="submit">
+                        Giriş
+                    </button>
+                    <label class="checkbox pull-left">
+                        @Html.CheckBoxFor(model => model.RememberMe) Beni Hatırla
+                    </label>
+                    <a href="#" class="pull-right need-help">Yardım </a><span class="clearfix"></span>
+                </form>
+            </div>
+            <a href='@Url.Action("Register","Login")' class="text-center new-account">Yeni Üye</a>
+        </div>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
-</form>
+</div>
