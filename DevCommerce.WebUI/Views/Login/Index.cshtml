@@ -1,0 +1,24 @@
+﻿@using DevCommerce.WebUI.Models;
+
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Giriş";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<form class="form-signin" action="@Url.Action("Index","Login")" method="post">
+    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Üye Girişi</h1>
+    <label for="inputEmail" class="sr-only">Eposta</label>
+    @Html.TextBoxFor(model => model.Email, new { @type = "email", @class = "form-control", placeholder = "Eposta", required = "required", autofocus = "" })
+    <label for="inputPassword" class="sr-only">Şifre</label>
+    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Şifre", required = "required" })
+    <div class="checkbox mb-3">
+        <label>
+            @Html.CheckBoxFor(model => model.RememberMe) Beni Hatırla
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
+</form>

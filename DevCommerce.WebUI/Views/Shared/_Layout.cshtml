@@ -5,25 +5,45 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/Contents/Styles/Library/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link href="~/Contents/Styles/Custom/MainStyle.css" rel="stylesheet" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-light bg-light no-padding">
             <img src="~/Contents/Images/09-04-2018_1523346534617_1.png" class="promo" alt="Responsive image">
-            @*<img src="~/Contents/Images/09-04-2018_1523346534617_1.png" class="img-fluid" />*@
         </nav>
-        @*<div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <h1 class="display-4">Fluid jumbotron</h1>
-                    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-                </div>
-            </div>*@
         <nav class="navbar navbar-light">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")">
                 <img src="/Contents/Images/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
                 DevCommerce
             </a>
+            <div class="row">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-user"></span>   Hesabım
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <a class="dropdown-item" href="@Url.Action("Index","Login")">Giriş Yap</a>
+                        <a class="dropdown-item" href="#">Üye Ol</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Siparişlerim</a>
+                        <a class="dropdown-item" href="#">Hesabım</a>
+                        <a class="dropdown-item" href="#">Favorilerim</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Kuponlarım</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Mesajlarım</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("Logout","Home")">Çıkış</a>
+                    </div>
+                </div>
+                <a class="btn btn-secondary btn-lg" href='@Url.Action("Card","Product")' role="button">
+                    <span class="fas fa-shopping-basket">
+                        <div class="numberCircle">0</div>
+                    </span>  Sepetim
+                </a>
+            </div>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-light  bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,20 +65,59 @@
         @RenderBody()
     </main>
 
-    <footer class="text-muted">
-        <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-            <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+    <!--Footer-->
+    <footer class="page-footer font-small stylish-color-dark pt-4 mt-4">
+        <div class="container text-center text-md-left">
+            <div class="row text-center text-md-left mt-3 pb-3">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">CodeDev</h6>
+                    <p></p>
+                </div>
+                <hr class="w-100 clearfix d-md-none">
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Markalar</h6>
+                    @await Component.InvokeAsync("BrandList")
+                </div>
+                <hr class="w-100 clearfix d-md-none">
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Faydalı Linkler</h6>
+                    <p><a href="#!">Hesabım</a></p>
+                    <p><a href="#!">Kuponlarım</a></p>
+                    <p><a href="#!">Yardım</a></p>
+                </div>
+                <hr class="w-100 clearfix d-md-none">
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">İletişim</h6>
+                    <p><i class="fa fa-home mr-3"></i> İstanbul Türkiye</p>
+                    <p><i class="fa fa-envelope mr-3"></i> admin@codedev.org</p>
+                    <p><i class="fa fa-phone mr-3"></i> + 90 212 222 2222</p>
+                    <p><i class="fa fa-print mr-3"></i> + 90 212 222 2221</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row py-3 d-flex align-items-center">
+                <div class="col-md-8 col-lg-8">
+                    <p class="text-center text-md-left grey-text">© 2018 Copyright: <a href="#"><strong>Site sorumluluğu CodeDev grubuna aittir. Her Hakkı Saklıdır.</strong></a></p>
+                </div>
+                <div class="col-md-4 col-lg-4 ml-lg-0">
+                    <div class="text-center text-md-right">
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item"><a class="btn-floating btn-sm rgba-white-slight mx-1"><i class="fab fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a class="btn-floating btn-sm rgba-white-slight mx-1"><i class="fab fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a class="btn-floating btn-sm rgba-white-slight mx-1"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li class="list-inline-item"><a class="btn-floating btn-sm rgba-white-slight mx-1"><i class="fab fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-
 
     <script src="~/Contents/Scripts/Library/jquery.js"></script>
     <script src="~/Contents/Scripts/Library/popper.min.js"></script>
     <script src="~/Contents/Scripts/Library/bootstrap.min.js"></script>
     <script src="~/Contents/Scripts/Library/holder.min.js"></script>
+    <script src="~/Contents/Scripts/Custom/DevScript.js"></script>
+    @RenderSection("bottomScripts", false)
 </body>
 </html>

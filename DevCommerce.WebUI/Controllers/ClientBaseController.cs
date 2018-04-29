@@ -1,24 +1,36 @@
 ﻿using DevCommerce.Entities.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using DevCommerce.WebUI.Extensions;
 
 namespace DevCommerce.WebUI.Controllers
 {
     public class ClientBaseController : Controller
     {
-        private readonly static string Token;
         public ClientBaseController()
         {
-            //TODO => Buradaki değerler config dosyasından alınacak
-            //string stringData = ServiceGetData("/api/Account/GetToken", RequestType, "{\"CompanyName\":\"CodeDev\", \"ProjectName\":\"Commerce\", \"TokenKey\":\"Admin\",\"TokenValue\":\"Admin123\"}").Result;
-            //Token = stringData.TrimStart('"').TrimEnd('"');
+
+        }
+
+        private static string Token;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ClientBaseController(IHttpContextAccessor httpContextAccessor)
+        {
+            this._httpContextAccessor = httpContextAccessor;
         }
 
         static ClientBaseController()
+        {
+            SetToken();
+        }
+
+        //TODO => Buradaki değerler config dosyasından alınacak
+        public static void SetToken()
         {
             string stringData = ServiceGetData("/api/Account/GetToken", RequestType.POST, "{\"CompanyName\":\"CodeDev\", \"ProjectName\":\"Commerce\", \"TokenKey\":\"Admin\",\"TokenValue\":\"Admin123\"}");
             Token = stringData.TrimStart('"').TrimEnd('"');
@@ -44,7 +56,7 @@ namespace DevCommerce.WebUI.Controllers
                     case RequestType.POST:
                         using (var stringContent = new StringContent(postParameters, System.Text.Encoding.UTF8, "application/json"))
                         {
-                            response = client.PostAsync("/api/Account/GetToken", stringContent).Result;
+                            response = client.PostAsync(requestUri, stringContent).Result;
                         }
                         break;
                     case RequestType.GET:
@@ -52,8 +64,18 @@ namespace DevCommerce.WebUI.Controllers
                         response = client.GetAsync(requestUri).Result;
                         break;
                 }
-                return response.Content.ReadAsStringAsync().Result;
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    SetToken();
+                    return ServiceGetData(requestUri, requestType, postParameters, requeiredToken);
+                }
+                else
+                {
+                    return response.Content.ReadAsStringAsync().Result;
+                }
             }
         }
     }
 }
+

@@ -1,0 +1,6 @@
+﻿@model DevCommerce.WebUI.Models.BrandPartialModel
+
+@foreach (var brand in Model.Brands)
+{
+    <p><a href="@Url.Action("Index","Product",new { BrandId=brand.BrandId})">@brand.BrandName</a></p>
+}

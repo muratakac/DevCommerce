@@ -1,7 +1,92 @@
-﻿
+﻿@using DevCommerce.WebUI.Models
+@model ProductDetailViewModel
 @{
     ViewData["Title"] = "Ürün Detayı";
 }
 
-<h2>Detail</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Anasayfa</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">Ürün Detay</a></li>
+    </ol>
+</nav>
 
+<div class="container">
+    <div class="row">
+        <div class="product-detail col-md-12 no-padding">
+            <div class="product-images col-md-6 no-padding">
+                <img src="https://productimages.hepsiburada.net/s/18/500/9785865535538.jpg" />
+            </div>
+            <div class="detail col-md-6 no-padding">
+                <div class="product-name">Prima Pants Külot Bebek Bezi 5 Beden Junior Süper Fırsat Paketi 84 Adet</div>
+                <div class="brand">Prima</div>
+                <div class="description">Prima Alışverişine Orkid Günlük Ped 28 Adet x 10 12 tl İndirimli!</div>
+                <div class="price-detail col-md-12 no-padding">
+                    <div class="discount col-md-3 no-padding">
+                        <span class="normal">%29 İndirim</span>
+                        <span class="extra">Ekstra %29</span>
+                    </div>
+                    <div class="price col-md-5 no-padding">
+                        <span class="old">104.98 TL</span>
+                        <span class="new">
+                            74,89 TL (0,65 TL / adet)
+                        </span>
+                        <span class="extra-discount">54,91 TL</span>
+                    </div>
+                </div>
+                <div class="col-md-12 add-basket-area">
+                    <div class="row">
+                        <div class="input-group col-md-6">
+                            <span class="input-group-btn btn-down">
+                                <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                    <span class="fas fa-angle-down"></span>
+                                </button>
+                            </span>
+                            <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="100">
+                            <span class="input-group-btn btn-up">
+                                <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                    <span class="fas fa-angle-up"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <button type="button" class="btn btn-warning btn-lg btn-block col-md-6" onclick="$.product.addBasket('@Model.Product.ProductId');">Sepete Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*TODO => Style*@
+    <div class="row" style="margin-top:20px;">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+                <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+                <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+                <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <h3>HOME</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <h3>Menu 1</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <h3>Menu 2</h3>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </div>
+                <div id="menu3" class="tab-pane fade">
+                    <h3>Menu 3</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section bottomScripts{
+    <script src="~/Contents/Scripts/Custom/productDetailPage.js"></script>
+}

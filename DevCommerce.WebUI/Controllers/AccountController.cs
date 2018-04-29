@@ -2,7 +2,7 @@
 
 namespace DevCommerce.WebUI.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : ClientAuthController
     {
         public IActionResult Index()
         {

@@ -3,7 +3,7 @@
 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
     @foreach (var category in Model.Categories)
     {
-        <a class="dropdown-item" href="#">@category.CategoryName</a>
+        <a class="dropdown-item" href="@Url.Action("Index","Product",new { CategoryId=category.CategoryId})">@category.CategoryName</a>
         if (Model.AllCategories.Any(x => x.ParentId == category.CategoryId))
         {
             @await Component.InvokeAsync("SubCategoryList", new { categoryId = category.CategoryId, categoryList = Model.AllCategories })

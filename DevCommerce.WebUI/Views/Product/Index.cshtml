@@ -1,2 +1,10 @@
-﻿
-@Component.InvokeAsync("ProductList")
+﻿@using DevCommerce.WebUI.Models;
+
+@model ProductViewModel
+
+
+<div class="container product-list">
+    <div class="row">
+        @await Component.InvokeAsync("ProductList", new { categoryId = Model.CategoryId, brandId = Model.BrandId })
+    </div>
+</div>

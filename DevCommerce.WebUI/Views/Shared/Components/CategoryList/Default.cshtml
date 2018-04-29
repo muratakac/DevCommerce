@@ -14,7 +14,7 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link" href="#">@category.CategoryName</a>
+            <a class="nav-link" href="@Url.Action("Index","Product",new { CategoryId=category.CategoryId})">@category.CategoryName</a>
         </li>
     }
 }

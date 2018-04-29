@@ -2,9 +2,22 @@
     --jumbotron-padding-y: 3rem;
 }
 
+main {
+    min-height: 500px;
+}
+
 .no-padding {
     padding: 0px;
 }
+
+.page-footer {
+    background-color: #666 !important;
+    color: #fff;
+}
+
+    .page-footer p a {
+        color: #fff;
+    }
 
 nav .promo {
     width: 100%;
@@ -42,8 +55,159 @@ footer {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
     min-height: 450px;
 }
-/*Extra small devices (portrait phones, less than 576px)*/
 
+.breadcrumb {
+    background-color: #ffffff;
+    border-bottom: 3px solid #f8f9fa;
+}
+
+.product-detail {
+    margin-top: 20px;
+}
+
+    .product-detail .product-images {
+        float: left;
+    }
+
+
+    .product-detail .detail {
+        float: left;
+    }
+
+.detail {
+    width: 45%;
+}
+
+    .detail div {
+        margin-bottom: 10px;
+    }
+
+    .detail .product-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .detail .brand {
+        color: purple;
+    }
+
+    .detail .description {
+        color: #090;
+    }
+
+    .detail .price-detail .price {
+        float: left;
+        display: grid;
+    }
+
+    .detail .price-detail .discount {
+        float: left;
+        display: grid;
+    }
+
+    .detail .price-detail .price .old {
+        color: #9e9e9e;
+        text-decoration: line-through;
+        font-weight: 400;
+    }
+
+    .detail .price-detail .price .new {
+        font-size: 19px;
+        color: #484848;
+    }
+
+    .detail .price-detail .price .extra-discount {
+        font-size: 32px;
+        color: #484848;
+    }
+
+    .detail .price-detail .discount .normal {
+        background-color: #f90909;
+        color: #FFF;
+        width: 70px;
+        text-align: center;
+        margin-bottom: 10px;
+        border: 1px solid #f90909;
+        border-radius: 3px;
+    }
+
+    .detail .price-detail .discount .extra {
+        background-color: #393;
+        color: #FFF;
+        width: 70px;
+        text-align: center;
+        border: 1px solid #393;
+        border-radius: 3px;
+    }
+
+.add-basket-area {
+    float: left;
+    margin-top: 20px;
+}
+
+    .add-basket-area .input-group {
+    }
+
+        .add-basket-area .input-group .btn-down {
+            padding-top: 10px;
+            margin-right: 2px;
+        }
+
+        .add-basket-area .input-group .btn-up {
+            padding-top: 10px;
+            margin-left: 2px;
+        }
+
+        .add-basket-area .input-group .input-number {
+            height: 40px;
+            margin-top: 9px;
+            width: 40%;
+            text-align: center;
+            flex: unset;
+            border-radius: 4px;
+        }
+
+.numberCircle {
+    float: right;
+    border-radius: 50%;
+    behavior: url(PIE.htc);
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    background: #fff;
+    color: #6c757d;
+    text-align: center;
+    font: 14px Arial, sans-serif;
+    padding-top: 2px;
+    margin-top: -10px;
+    margin-left: -5px;
+    border: 3px solid #6c757d;
+    font-weight: 600;
+}
+
+.navbar .row {
+    margin-right: 20px;
+}
+
+    .navbar .row .dropdown {
+        margin-right: 5px;
+    }
+
+.dropdown .dropdown-toggle {
+    height: 50px;
+}
+
+.product-list {
+    margin-top: 20px;
+}
+
+/*.campaigns {
+    width: 100%;
+    background-color: #9e9e9e;
+    height:200px;
+    margin-top:20px;
+}*/
+/*Extra small devices (portrait phones, less than 576px)*/
 /*Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {
 }

@@ -95,7 +95,7 @@ namespace DevCommerce.WebApi.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return Ok();
+                    return Ok("Giriş Başarılı");
                 }
                 else
                 {
