@@ -1,4 +1,8 @@
-﻿:root {
+﻿body {
+    background-color: #f8f9fa !important;
+}
+
+:root {
     --jumbotron-padding-y: 3rem;
 }
 
@@ -23,6 +27,11 @@ nav .promo {
     width: 100%;
 }
 
+.category-list {
+    background-color: #fff !important;
+    margin-bottom: 20px;
+}
+
 .jumbotron {
     padding-top: var(--jumbotron-padding-y);
     padding-bottom: var(--jumbotron-padding-y);
@@ -41,6 +50,27 @@ nav .promo {
 .jumbotron .container {
     max-width: 40rem;
 }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    height: 100px;
+    width: 100px;
+    outline: black;
+    background-size: 100%, 100%;
+    background-image: none;
+}
+
+    .carousel-control-next-icon:after {
+        content: '>';
+        font-size: 55px;
+        color: blue;
+    }
+
+    .carousel-control-prev-icon:after {
+        content: '<';
+        font-size: 55px;
+        color: blue;
+    }
 
 .dropdown-button {
     width: 150px;
@@ -71,6 +101,32 @@ footer {
     background-color: #ffffff;
     border-bottom: 3px solid #f8f9fa;
 }
+
+.loading-overlay {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.loading {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: sans-serif;
+    margin-top: 30%;
+    margin-left: 35%;
+    z-index: 999999;
+    display: block;
+    position: fixed;
+    background-color: #fff;
+    width: 30%;
+    height: 70px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 4px;
+}
+
+    .loading img {
+        margin-left: 20px;
+    }
 
 .product-detail {
     margin-top: 20px;
@@ -215,7 +271,13 @@ footer {
 
 /*Extra small devices (portrait phones, less than 576px)*/
 /*Small devices (landscape phones, 576px and up)*/
-@media (min-width: 576px) {
+@media (max-width: 576px) {
+    .loading {
+        margin-top: 90%;
+        margin-left: 5%;
+        width: 90%;
+        padding: 5px;
+    }
 }
 
 /*Medium devices (tablets, 768px and up)*/

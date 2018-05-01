@@ -26,6 +26,11 @@ namespace DevCommerce.WebUI.Controllers
             return View(productViewModel);
         }
 
+        public IActionResult ProductList(int categoryId, int brandId, int pageNumber = 0)
+        {
+            return ViewComponent("ProductList", new { categoryId, brandId, pageNumber });
+        }
+
         public IActionResult Detail(int ProductId)
         {
             ProductDetailViewModel productDetailViewModel = new ProductDetailViewModel();

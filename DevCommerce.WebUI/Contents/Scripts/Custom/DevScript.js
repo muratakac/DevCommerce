@@ -10,10 +10,9 @@
             $(".numberCircle").html(response);
         }, "html", false, true, false);
     };
-
     $.devScript.get = function (requestUrl, headers, callBackFunction, dataType, cache, async, showOverlay) {
         if (showOverlay) {
-            if ($(".loading-overlay").is(':visible')) {
+            if ($(".loading-overlay").not(':visible')) {
                 $(".loading-overlay").show();
             }
         }
@@ -29,25 +28,23 @@
             cache: (cache == null || cache == undefined ? false : cache),
             async: (async == null || async == undefined ? false : async),
             success: function (response) {
-                if ($(".loading-overlay").not(':visible')) {
+                if ($(".loading-overlay").is(':visible')) {
                     $(".loading-overlay").hide();
                 }
                 if (callBackFunction != null && callBackFunction != undefined)
                     callBackFunction(response);
             },
             error: function (e) {
-                if ($(".loading-overlay").not(':visible')) {
+                if ($(".loading-overlay").is(':visible')) {
                     $(".loading-overlay").hide();
                 }
                 //Dialog açılacak
             }
         });
     };
-
     $.devScript.post = function (requestUrl, parameters, callBackFunction, dataType, cache, async, showOverlay) {
-        debugger
         if (showOverlay) {
-            if ($(".loading-overlay").is(':visible')) {
+            if ($(".loading-overlay").not(':visible')) {
                 $(".loading-overlay").show();
             }
         }
@@ -63,21 +60,30 @@
             cache: (cache == null || cache == undefined ? false : cache),
             async: (async == null || async == undefined ? false : async),
             success: function (response) {
-                if ($(".loading-overlay").not(':visible')) {
+                if ($(".loading-overlay").is(':visible')) {
                     $(".loading-overlay").hide();
                 }
                 if (callBackFunction != null && callBackFunction != undefined)
                     callBackFunction(response);
             },
             error: function (e) {
-                if ($(".loading-overlay").not(':visible')) {
+                if ($(".loading-overlay").is(':visible')) {
                     $(".loading-overlay").hide();
                 }
                 //Dialog açılacak
             }
         });
     };
-
+    $.devScript.focus = function (element) {
+        if ($('.' + element).length > 0) $('.' + element).focus();
+    }
+    $.devScript.scrollTo = function (element) {
+        if ($('.' + element).length > 0) {
+            $('html, body').animate({
+                scrollTop: $('.' + element).offset().top - 80
+            }, 10);
+        }
+    }
     $.devScript.Initialize();
 }(jQuery));
 

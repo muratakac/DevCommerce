@@ -2,6 +2,7 @@
 using DevCommerce.Entities.Enums;
 using DevCommerce.WebUI.Controllers;
 using DevCommerce.WebUI.Models;
+using DevCommerce.WebUI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Newtonsoft.Json;
@@ -10,11 +11,15 @@ using System.Linq;
 
 namespace DevCommerce.WebUI.ViewComponents
 {
+    [ViewComponent(Name = "ProductList")]
     public class ProductListViewComponent : ViewComponent
     {
-        //Paging
-        public ViewViewComponentResult Invoke(int categoryId, int brandId)
+        public ViewViewComponentResult Invoke(int categoryId, int brandId, int pageNumber = 0)
         {
+            PagingModel<Product> pagingModel = new PagingModel<Product>();
+            pagingModel.CurrentPage = pageNumber;
+            pagingModel.PageSize = 6;
+
             ProductComponentModel productComponentModel = new ProductComponentModel();
             string stringData = ClientBaseController.ServiceGetData("/api/Product", RequestType.GET, null, true);
             IEnumerable<Product> products = JsonConvert.DeserializeObject<IEnumerable<Product>>(stringData);
@@ -29,7 +34,10 @@ namespace DevCommerce.WebUI.ViewComponents
                 products = products.Where(x => x.BrandId == brandId);
             }
 
-            productComponentModel.Products = products.ToList();
+            pagingModel.PagedData = products.ToList();
+            productComponentModel.Products = pagingModel;
+            productComponentModel.CategoryId = categoryId;
+            productComponentModel.BrandId = brandId;
 
             return View(productComponentModel);
         }

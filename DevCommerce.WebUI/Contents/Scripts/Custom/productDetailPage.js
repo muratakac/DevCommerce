@@ -91,7 +91,7 @@ $(".input-number").keydown(function (e) {
 
         $.devScript.post("/Product/AddBasket/", parameters, function (response) {
             $.devScript.Initialize();
-        }, "html", false, true, false);
+        }, "html", false, true, true);
     };
     $.product.Initialize();
 })(jQuery);
