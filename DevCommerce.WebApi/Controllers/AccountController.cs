@@ -95,10 +95,10 @@ namespace DevCommerce.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    User user = _userManager.FindByNameAsync(model.Email).Result;
+                    User user = _userManager.FindByNameAsync(model.UserName).Result;
                     if (user!=null)
                     {
                         return Ok(user);

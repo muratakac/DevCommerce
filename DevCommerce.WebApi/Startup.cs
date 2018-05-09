@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DevCommerce.Business.Abstract;
 using DevCommerce.Business.Concrete;
+using DevCommerce.Core.CrossCuttingConcerns.Caching.Redis;
 using DevCommerce.Core.CrossCuttingConcerns.Email;
 using DevCommerce.Core.Entities.AppSettingsModels;
 using DevCommerce.DataAccess.Abstract;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -133,15 +135,21 @@ namespace DevCommerce.WebApi
             services.AddScoped<IStringLocalizer, LocalizationService>();
 
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IDistributedCache, RedisCacheManager>();
 
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AuthMessageSenderOptions"));
             services.Configure<JwtTokenParameter>(Configuration.GetSection("JwtTokenParameters"));
             services.Configure<EmailParameter>(Configuration.GetSection("EmailParameters"));
 
             services.AddAutoMapper();
-            services.AddMvc().AddJsonOptions(
-            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        ); ;
+            services.AddCors();
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = "127.0.0.1:6379";
+                option.InstanceName = "master";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -175,6 +183,11 @@ namespace DevCommerce.WebApi
 
             app.UseAuthentication();
 
+            app.UseCors(builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             app.UseMvc();
         }
     }

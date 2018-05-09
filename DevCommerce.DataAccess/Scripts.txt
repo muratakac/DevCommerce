@@ -1,0 +1,63 @@
+﻿use DevCommerce
+GO
+INSERT INTO Categories(CategoryName)
+VALUES ('Bilgisayar');
+GO
+INSERT INTO Categories(CategoryName)
+VALUES ('Elektronik');
+GO
+INSERT INTO Categories(CategoryName)
+VALUES ('Beyaz Esya');
+GO
+INSERT INTO Categories(CategoryName)
+VALUES ('Giyim');
+GO
+INSERT INTO Categories(CategoryName)
+VALUES ('Kitap/Hobi');
+GO
+INSERT INTO Categories(CategoryName)
+VALUES ('Kozmetik');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('LG');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('Siemens');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('IPhone');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('Vestel');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('Arçelik');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('Bosch');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('Lenovo');
+GO
+INSERT INTO Brands(BrandName)
+VALUES ('Toshiba');
+GO
+
+DECLARE @counter       int
+SET @counter=1;
+WHILE @counter <= 100
+BEGIN
+INSERT INTO Products(ProductName,Description,UnitPrice,UnitsInStock,Discount,BrandId,CategoryId)
+VALUES (
+(select ProductName from dummy where id = CEILING(RAND()*5)),
+(select Description from dummy where id = CEILING(RAND()*5)),
+ROUND(RAND()*1000, 2),
+CEILING(RAND()*1000),
+ROUND(RAND()*10, 1),
+CEILING(RAND()*8),
+CEILING(RAND()*6)
+);
+SET @counter += 1;
+END
+
+insert into Tokens values ('CodeDev','Commerce','Admin','Admin123')
