@@ -53,7 +53,7 @@ namespace DevCommerce.WebApi.Controllers
         /// <param name="model">url/api/Account/GetToken
         /// {"CompanyName":"?","ProjectName":"?","TokenKey":"?","TokenValue":"?"}</param>
         /// <returns></returns>
-        [HttpPost]
+        //[HttpPost]
         [Route("GetToken")]
         public async Task<IActionResult> CreateToken([FromBody]TokenViewModel model)
         {
