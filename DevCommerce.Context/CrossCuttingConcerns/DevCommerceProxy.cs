@@ -14,10 +14,18 @@ namespace DevCommerce.Core.CrossCuttingConcerns
             _next = next;
         }
 
-        public Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             // Call the next delegate/middleware in the pipeline
-            return this._next(context);
+            Begin(context.Request);
+
+            await this._next(context);
+
+            End(context.Response);
+
         }
+
+        public void Begin(HttpRequest request) { }
+        public void End(HttpResponse response) { }
     }
 }

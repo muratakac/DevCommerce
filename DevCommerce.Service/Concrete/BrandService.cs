@@ -1,4 +1,6 @@
 ﻿using DevCommerce.Business.Abstract;
+using DevCommerce.Core.CrossCuttingConcerns.Cache;
+using DevCommerce.Core.CrossCuttingConcerns.Cache.Redis;
 using DevCommerce.DataAccess.Abstract;
 using DevCommerce.Entities;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace DevCommerce.Business.Concrete
             _brandRepository = brandRepository;
         }
 
+        [CacheProvider(ProviderType = typeof(RedisCacheProvider), Duration = 10)]
         public List<Brand> GetAll()
         {
             return _brandRepository.All().ToList();
