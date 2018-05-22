@@ -1,4 +1,4 @@
-﻿using DevCommerce.DataAccess.Abstract;
+﻿using DevCommerce.DataAccess.Concrete.EntityFramework.Abstract;
 using DevCommerce.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;

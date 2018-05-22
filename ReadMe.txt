@@ -1,0 +1,1 @@
+Dapper kullanýmý istenildiði için Servis ve DataAccess katmaný düzenlendi. Sonraki versiyonlarda Repository'ler ortak kullanýlabilir hale getirilecek.

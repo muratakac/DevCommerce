@@ -1,22 +1,16 @@
 ﻿using AutoMapper;
 using DevCommerce.Business.Abstract;
-using DevCommerce.Business.Concrete;
 using DevCommerce.Core.CrossCuttingConcerns.Email;
 using DevCommerce.Core.CrossCuttingConcerns.Security;
 using DevCommerce.Core.Entities.AppSettingsModels;
 using DevCommerce.Entities.Concrete;
-using DevCommerce.WebApi.Extensions;
 using DevCommerce.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DevCommerce.WebApi.Controllers
@@ -34,10 +28,21 @@ namespace DevCommerce.WebApi.Controllers
         public JwtTokenParameter JwtTokenParameter { get; }
         public EmailParameter EmailParameter { get; }
 
-        public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IEmailSender emailSender, IOptions<JwtTokenParameter> jwtTokenParameter, IOptions<EmailParameter> emailParameter, IStringLocalizer stringLocalizer)
+        //public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IEmailSender emailSender, IOptions<JwtTokenParameter> jwtTokenParameter, IOptions<EmailParameter> emailParameter, IStringLocalizer stringLocalizer)
+        //{
+        //    _userManager = userManager;
+        //    _signInManager = signInManager;
+        //    _tokenService = tokenService;
+        //    _emailSender = emailSender;
+        //    _mapper = mapper;
+        //    _stringLocalizer = stringLocalizer;
+
+        //    JwtTokenParameter = jwtTokenParameter.Value;
+        //    EmailParameter = emailParameter.Value;
+        //}
+
+        public AccountController(IMapper mapper,  ITokenService tokenService, IEmailSender emailSender, IOptions<JwtTokenParameter> jwtTokenParameter, IOptions<EmailParameter> emailParameter, IStringLocalizer stringLocalizer)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
             _tokenService = tokenService;
             _emailSender = emailSender;
             _mapper = mapper;

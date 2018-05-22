@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace DevCommerce.DataAccess.Abstract
+namespace DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract
 {
     public interface IConnectionFactory
     {

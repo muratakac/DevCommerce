@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
+using DevCommerce.Entities.Concrete;
 
 namespace DevCommerce.DataAccess.Concrete.DapperRepositories
 {
-    class CultureRepository
+    public class CultureRepository : BaseRepository<Culture>, ICultureRepository
     {
+        public CultureRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        {
+        }
     }
 }

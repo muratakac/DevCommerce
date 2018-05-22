@@ -1,8 +1,7 @@
-﻿using DevCommerce.DataAccess.Abstract;
+﻿using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
 using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace DevCommerce.Business.Concrete
 {
@@ -18,40 +17,54 @@ namespace DevCommerce.Business.Concrete
             _cultureRepository = cultureRepository;
         }
 
-        public LocalizedString this[string name]
-        {
-            get
-            {
-                var value = GetString(name);
-                return new LocalizedString(name, value ?? name, resourceNotFound: value == null);
-            }
-        }
+        public LocalizedString this[string name] => throw new System.NotImplementedException();
 
-        public LocalizedString this[string name, params object[] arguments]
-        {
-            get
-            {
-                var format = GetString(name);
-                var value = string.Format(format ?? name, arguments);
-                return new LocalizedString(name, value, resourceNotFound: format == null);
-            }
-        }
+        public LocalizedString this[string name, params object[] arguments] => throw new System.NotImplementedException();
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            return _resourceRepository.Filter(x =>  x.Culture.Name == CultureInfo.CurrentCulture.Name)
-             .Select(r => new LocalizedString(r.Key, r.Value, true));
+            throw new System.NotImplementedException();
         }
 
         public IStringLocalizer WithCulture(CultureInfo culture)
         {
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            return new LocalizationService(_resourceRepository, _cultureRepository);
+            throw new System.NotImplementedException();
         }
-        private string GetString(string name)
-        {
-            return _resourceRepository.Filter(x => x.Key == name && x.Culture.Name == CultureInfo.CurrentCulture.Name)
-                 .FirstOrDefault(r => r.Key == name)?.Value;
-        }
+
+        //public LocalizedString this[string name]
+        //{
+        //    get
+        //    {
+        //        var value = GetString(name);
+        //        return new LocalizedString(name, value ?? name, resourceNotFound: value == null);
+        //    }
+        //}
+
+        //public LocalizedString this[string name, params object[] arguments]
+        //{
+        //    get
+        //    {
+        //        var format = GetString(name);
+        //        var value = string.Format(format ?? name, arguments);
+        //        return new LocalizedString(name, value, resourceNotFound: format == null);
+        //    }
+        //}
+
+        //public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
+        //{
+        //    return _resourceRepository.Filter(x =>  x.Culture.Name == CultureInfo.CurrentCulture.Name)
+        //     .Select(r => new LocalizedString(r.Key, r.Value, true));
+        //}
+
+        //public IStringLocalizer WithCulture(CultureInfo culture)
+        //{
+        //    CultureInfo.DefaultThreadCurrentCulture = culture;
+        //    return new LocalizationService(_resourceRepository, _cultureRepository);
+        //}
+        //private string GetString(string name)
+        //{
+        //    return _resourceRepository.Filter(x => x.Key == name && x.Culture.Name == CultureInfo.CurrentCulture.Name)
+        //         .FirstOrDefault(r => r.Key == name)?.Value;
+        //}
     }
 }

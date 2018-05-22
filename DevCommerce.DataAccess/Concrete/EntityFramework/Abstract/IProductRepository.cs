@@ -1,7 +1,7 @@
 ﻿using DevCommerce.Entities;
 using System.Linq;
 
-namespace DevCommerce.DataAccess.Abstract
+namespace DevCommerce.DataAccess.Concrete.EntityFramework.Abstract
 {
     public interface IProductRepository : IRepository<Product>
     {

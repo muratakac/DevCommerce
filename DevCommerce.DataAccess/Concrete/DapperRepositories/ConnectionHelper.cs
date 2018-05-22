@@ -1,5 +1,5 @@
 ﻿using DevCommerce.Core.Entities.AppSettingsModels;
-using DevCommerce.DataAccess.Abstract;
+using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
@@ -31,7 +31,7 @@ namespace DevCommerce.DataAccess.Concrete.DapperRepositories
                 {
                     if (_sqlConnection == null)
                     {
-                        _sqlConnection = new SqlConnection(Options.ConnectionString);
+                        _sqlConnection = new SqlConnection(Options.DefaultConnection);
                     }
                 }
 

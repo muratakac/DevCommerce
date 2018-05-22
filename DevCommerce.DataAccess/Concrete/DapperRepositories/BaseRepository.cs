@@ -1,16 +1,16 @@
-﻿using DevCommerce.DataAccess.Abstract;
-using System;
+﻿using Dapper;
+using DevCommerce.Core.Extensions;
+using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Text;
-using Dapper;
-using DapperExtensions;
 using System.Linq;
+using System.Text;
 
 namespace DevCommerce.DataAccess.Concrete.DapperRepositories
 {
-    public class BaseRepository<TObject>
+    //TODO => try catch blokları düzenlenecek. 
+    //TODO => Connection Open Close blokları düzenlenecek
+    public class BaseRepository<TObject> : IRepository<TObject>
 
           where TObject : class
     {
@@ -20,29 +20,97 @@ namespace DevCommerce.DataAccess.Concrete.DapperRepositories
             connection = connectionFactory.GetConnection;
         }
 
-
         public IQueryable<TObject> All()
         {
-            connection.Query<TObject>("").AsQueryable();
+            IEnumerable<TObject> result;
+            try
+            {
+                string sqlCommand = this.CreateCommand(QueryType.SelectAll, typeof(TObject).Name.GetPluralize());
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
 
-            throw new NotImplementedException();
+                result = connection.Query<TObject>(sqlCommand);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return result.AsQueryable();
+        }
+
+        public TObject Find(IDictionary<string, string> keyValues)
+        {
+            TObject result;
+            try
+            {
+                string sqlCommand = this.CreateCommand(QueryType.SelectByCriteria, typeof(TObject).Name.GetPluralize(), keyValues);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+
+                result = connection.QuerySingle<TObject>(sqlCommand);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return result;
+        }
+
+        public TObject Create(TObject entity)
+        {
+            int affectedRow;
+            int counter = 1;
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            var dynamicParameters = new DynamicParameters();
+            foreach (var property in entity.GetType().GetProperties())
+            {
+                if (!property.GetGetMethod().IsVirtual && !property.GetGetMethod().IsGenericMethod)
+                {
+                    parameters.Add(property.Name, property.GetValue(this, null).ToString());
+                    dynamicParameters.Add($"@p{counter}", property.GetValue(this, null));
+                    counter++;
+                }
+            }
+
+            try
+            {
+                string sqlCommand = this.CreateCommand(QueryType.Insert, typeof(TObject).Name.GetPluralize(), parameters);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+
+                affectedRow = connection.Execute(sqlCommand, dynamicParameters);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return entity;
         }
 
 
-        public string CreateCommand(QueryType queryType, string tableName, params string[] parameters)
+        private string CreateCommand(QueryType queryType, string tableName, IDictionary<string, string> keyValues = null)
         {
-            StringBuilder columns = new StringBuilder();
-            foreach (var property in typeof(TObject).GetProperties())
-            {
-                columns.AppendFormat("{0},", property.Name);
-            }
-
             string sqlCommand = string.Empty;
 
             switch (queryType)
             {
                 case QueryType.Insert:
-                    sqlCommand = $"insert into {tableName} {""} values {""}";
+
+                    int counter = 1;
+                    StringBuilder insertColumns = new StringBuilder();
+                    StringBuilder insertValues = new StringBuilder();
+
+                    foreach (var keyValue in keyValues)
+                    {
+                        insertColumns.Append($"{keyValue.Key},");
+                        insertValues.Append($"@p{counter},");
+                        counter++;
+                    }
+
+                    sqlCommand = $"insert into {tableName} {insertColumns.ToString().TrimEnd(',')} values {insertValues.ToString().TrimEnd(',')}";
                     break;
                 case QueryType.Update:
                     sqlCommand = $"update {tableName} set {""}";
@@ -51,15 +119,36 @@ namespace DevCommerce.DataAccess.Concrete.DapperRepositories
                     sqlCommand = $"delete from {tableName} where {""}";
                     break;
                 case QueryType.SelectAll:
-                    sqlCommand = $"select {columns.ToString().TrimEnd(',')} from {tableName}";
-                    break;
-                case QueryType.Select:
-                    sqlCommand = $"select {columns.ToString().TrimEnd(',')} from {tableName} where {""}";
+                case QueryType.SelectByCriteria:
+                    StringBuilder selectColumns = new StringBuilder();
+                    foreach (var property in typeof(TObject).GetProperties())
+                    {
+                        if (!property.GetGetMethod().IsVirtual && !property.GetGetMethod().IsGenericMethod)
+                        {
+                            selectColumns.AppendFormat("{0},", property.Name);
+                        }
+                    }
+
+                    if (keyValues != null && keyValues.Count > 0)
+                    {
+                        StringBuilder searchCriteria = new StringBuilder();
+                        foreach (var keyValue in keyValues)
+                        {
+                            searchCriteria.Append($"{keyValue.Key}={keyValue.Value},");
+                        }
+                        sqlCommand = $"select {selectColumns.ToString().TrimEnd(',')} from {tableName} where {searchCriteria.ToString().TrimEnd(',')}";
+                    }
+                    else
+                    {
+                        sqlCommand = $"select {selectColumns.ToString().TrimEnd(',')} from {tableName}";
+                    }
+
                     break;
             }
 
             return sqlCommand;
         }
+
 
     }
 }

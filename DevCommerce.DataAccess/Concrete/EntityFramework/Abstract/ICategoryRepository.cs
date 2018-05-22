@@ -1,6 +1,6 @@
 ﻿using DevCommerce.Entities;
 
-namespace DevCommerce.DataAccess.Abstract
+namespace DevCommerce.DataAccess.Concrete.EntityFramework.Abstract
 {
     public interface ICategoryRepository : IRepository<Category>
     {

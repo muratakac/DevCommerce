@@ -3,15 +3,15 @@ using DevCommerce.Business.Abstract;
 using DevCommerce.Business.Concrete;
 using DevCommerce.Core.CrossCuttingConcerns.Email;
 using DevCommerce.Core.Entities.AppSettingsModels;
-using DevCommerce.DataAccess.Abstract;
-using DevCommerce.DataAccess.Concrete.EntityFramework;
-using DevCommerce.Entities.Concrete;
+using DevCommerce.DataAccess.Concrete.DapperRepositories;
+using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
+//using DevCommerce.DataAccess.Concrete.EntityFramework;
+//using DevCommerce.DataAccess.Concrete.EntityFramework.Abstract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -40,13 +40,15 @@ namespace DevCommerce.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DevCommerceContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<DevCommerceContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, Role>(config =>
-            {
-                //Email Confirm
-                //config.SignIn.RequireConfirmedEmail = true;
-            }).AddEntityFrameworkStores<DevCommerceContext>().AddDefaultTokenProviders();
+            //services.AddIdentity<User, Role>(config =>
+            //{
+            //    //Email Confirm
+            //    //config.SignIn.RequireConfirmedEmail = true;
+            //}).AddEntityFrameworkStores<DevCommerceContext>().AddDefaultTokenProviders();
+
+            services.AddScoped<DataAccess.Concrete.DapperRepositories.Abstract.IConnectionFactory, ConnectionHelper>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -112,31 +114,28 @@ namespace DevCommerce.WebApi
            });
 
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-
             services.AddScoped<IBrandService, BrandService>();
-            services.AddScoped<IBrandRepository, BrandRepository>();
-
             services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<IStringLocalizer, LocalizationService>();
 
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped<IOrderRepository,OrderRepository>();
+            services.AddScoped<ITokenRepository,TokenRepository>();
             services.AddScoped<ICultureRepository, CultureRepository>();
             services.AddScoped<IResourceRepository, ResourceRepository>();
 
-            services.AddScoped<IStringLocalizer, LocalizationService>();
-
             services.AddScoped<IEmailSender, EmailSender>();
 
+            services.Configure<DapperConectionOptions>(Configuration.GetSection("ConnectionStrings"));
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("AuthMessageSenderOptions"));
             services.Configure<JwtTokenParameter>(Configuration.GetSection("JwtTokenParameters"));
             services.Configure<EmailParameter>(Configuration.GetSection("EmailParameters"));
-            
+
             services.AddAutoMapper();
             services.AddCors();
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
+using DevCommerce.Entities.Concrete;
 
 namespace DevCommerce.DataAccess.Concrete.DapperRepositories
 {
-    class TokenRepository
+    public class TokenRepository : BaseRepository<Token>, ITokenRepository
     {
+        public TokenRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        {
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using DevCommerce.Entities.Concrete;
 
-namespace DevCommerce.DataAccess.Abstract
+namespace DevCommerce.DataAccess.Concrete.EntityFramework.Abstract
 {
     public interface IResourceRepository : IRepository<Resource>
     {

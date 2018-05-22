@@ -8,6 +8,6 @@ namespace DevCommerce.Business.Abstract
         List<Category> GetAll();
         Category GetById(int id);
         Category Insert(Category category);
-        int Update(Category category);
+        //int Update(Category category);
     }
 }

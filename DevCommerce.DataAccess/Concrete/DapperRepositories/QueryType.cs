@@ -6,6 +6,6 @@
         Update,
         Delete,
         SelectAll,
-        Select
+        SelectByCriteria
     }
 }

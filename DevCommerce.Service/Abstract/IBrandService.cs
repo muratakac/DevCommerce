@@ -1,7 +1,5 @@
 ﻿using DevCommerce.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DevCommerce.Business.Abstract
 {
@@ -9,7 +7,7 @@ namespace DevCommerce.Business.Abstract
     {
         List<Brand> GetAll();
         Brand GetById(int id);
-        Brand Insert(Brand category);
-        int Update(Brand category);
+        //Brand Insert(Brand category);
+        //int Update(Brand category);
     }
 }

@@ -7,7 +7,8 @@ using System.Collections.Generic;
 namespace DevCommerce.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Categories")]
+    //[Route("api/Categories")]
+    [Route("api/[controller]")]
     public class CategoriesController : Controller
     {
         private ICategoryService _categoryService;
@@ -29,6 +30,13 @@ namespace DevCommerce.WebApi.Controllers
         public Category GetCategoryByCategoryId(int categoryId)
         {
             return _categoryService.GetById(categoryId);
+        }
+
+        //[Authorize()]
+        [HttpPost("AddCategory")]
+        public Category NewCategory([FromBody]Category category)
+        {
+            return _categoryService.Insert(category);
         }
     }
 }

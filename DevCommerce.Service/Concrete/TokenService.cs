@@ -1,10 +1,11 @@
 ﻿using DevCommerce.Business.Abstract;
-using DevCommerce.DataAccess.Abstract;
+using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
 using DevCommerce.Entities.Concrete;
+using System.Linq;
 
 namespace DevCommerce.Business.Concrete
 {
-    public class TokenService: ITokenService
+    public class TokenService : ITokenService
     {
         ITokenRepository _tokenRepository;
 
@@ -15,12 +16,10 @@ namespace DevCommerce.Business.Concrete
 
         public bool CheckToken(Token token)
         {
-           var result =  _tokenRepository.Contains(x => x.TokenKey == token.TokenKey
+            return _tokenRepository.All().Any(x => x.TokenKey == token.TokenKey
             && x.TokenValue == token.TokenValue
             && x.ProjectName == token.ProjectName
             && x.CompanyName == token.CompanyName);
-
-            return result;
         }
     }
 }

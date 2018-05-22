@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
+using DevCommerce.Entities;
 
 namespace DevCommerce.DataAccess.Concrete.DapperRepositories
 {
-    class BrandRepository
+    public class BrandRepository : BaseRepository<Brand>,IBrandRepository
     {
+        public BrandRepository(IConnectionFactory connectionFactory) : base(connectionFactory)
+        {
+        }
     }
 }

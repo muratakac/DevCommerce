@@ -1,7 +1,7 @@
 ﻿using DevCommerce.Business.Abstract;
 using DevCommerce.Core.CrossCuttingConcerns.Cache;
 using DevCommerce.Core.CrossCuttingConcerns.Cache.Redis;
-using DevCommerce.DataAccess.Abstract;
+using DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract;
 using DevCommerce.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,25 +17,27 @@ namespace DevCommerce.Business.Concrete
             _productRepository = productRepository;
         }
 
-        [CacheProvider(ProviderType = typeof(RedisCacheProvider), Duration = 10)]
+        //[CacheProvider(ProviderType = typeof(RedisCacheProvider), Duration = 10)]
         public List<Product> GetAll()
         {
             return _productRepository.AllWithChild().ToList();
         }
 
+
+        //Dapper
         public Product GetById(int id)
         {
-            return _productRepository.Find(id);
+            return _productRepository.Find(new Dictionary<string, string>() { { "ProductId", id.ToString() } });
         }
 
-        public Product Insert(Product product)
-        {
-            return _productRepository.Create(product);
-        }
+        //public Product Insert(Product product)
+        //{
+        //    return _productRepository.Create(product);
+        //}
 
-        public int Update(Product product)
-        {
-            return _productRepository.Update(product);
-        }
+        //public int Update(Product product)
+        //{
+        //    return _productRepository.Update(product);
+        //}
     }
 }

@@ -7,7 +7,7 @@ namespace DevCommerce.Business.Abstract
     {
         List<Product> GetAll();
         Product GetById(int id);
-        Product Insert(Product category);
-        int Update(Product category);
+        //Product Insert(Product category);
+        //int Update(Product category);
     }
 }

@@ -1,4 +1,4 @@
-﻿using DevCommerce.DataAccess.Abstract;
+﻿using DevCommerce.DataAccess.Concrete.EntityFramework.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

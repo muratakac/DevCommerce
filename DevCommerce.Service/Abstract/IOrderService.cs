@@ -7,7 +7,7 @@ namespace DevCommerce.Business.Abstract
     {
         List<Order> GetAll();
         Order GetById(int id);
-        Order Insert(Order order);
-        int Update(Order order);
+        //Order Insert(Order order);
+        //int Update(Order order);
     }
 }

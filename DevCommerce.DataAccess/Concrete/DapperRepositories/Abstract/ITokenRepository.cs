@@ -1,6 +1,6 @@
 ﻿using DevCommerce.Entities.Concrete;
 
-namespace DevCommerce.DataAccess.Abstract
+namespace DevCommerce.DataAccess.Concrete.DapperRepositories.Abstract
 {
     public interface ITokenRepository : IRepository<Token>
     {
